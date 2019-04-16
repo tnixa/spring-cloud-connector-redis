@@ -5,54 +5,42 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.terrence.testapp.Status;
-import org.terrence.testapp.StatusRepository;
+import org.terrence.testapp.Person;
+import org.terrence.testapp.PersonRepository;
 
 @RestController
 public class TestRestController {
+
   @Autowired
-  private StatusRepository repo;
+  private PersonRepository repo;
 
-  // repo methods
-  private Status create(Status status) {
-    repo.add(status);
-    return status;
-  }
-
-  private void delete(String id) {
-    repo.remove(repo.get(id));
-  }
-
-  // test creating a Status object, storing it in the repo and retrieving it
   @GetMapping("/test")
+
   public String runTest() {
     try {
-      Status test = new Status();
-      String id = UUID.randomUUID().toString(); // use a random repo id
+      System.out.println("this is just a test");
+      Person test = new Person("TestPerson", 33);
+      String id = UUID.randomUUID().toString(); // use a random id
       System.out.println("Using random repo id: " + id);
-      String message = String.format("Message for the object: %s", id);
       test.setId(id);
-      test.setMsg(message);
 
       // verify there is nothing in the repo with the id and then create the test
       // object
       try {
-        Status exist = repo.get(id); // this should throw FileNotFoundException if nothing exists
-        System.out.println("object already exists, deleting it and then creating new object");
-        delete(id);
-        create(test);
-      } catch (org.ektorp.DocumentNotFoundException d) {
-        System.out.println("object does not exist, creating new object");
-        create(test);
+        repo.findById(id).ifPresent(p -> repo.deleteById(p.getId())); // if there is an existing Person with the id then
+                                                                      // delete it
+        repo.insert(test);
+      } catch (Exception d) {
+        System.out.println("exception caught: creating new object");
+        repo.insert(test);
       }
 
-      // validate the test obj was retrieved
-
-      Status check = repo.get(id);
+      // get the Person by ID and make sure the name and id matche
+      Person check = repo.findById(id).get();
       if (((check.getId() == null && test.getId() == null)
           || (check.getId() != null && check.getId().equals(test.getId())))
-          && ((check.getMsg() == null && test.getMsg() == null)
-              || (check.getMsg() != null && check.getMsg().equals(test.getMsg())))) {
+          && ((check.getName() == null && test.getName() == null)
+              || (check.getName() != null && check.getName().equals(test.getName())))) {
         return "test passed: objects matched!";
       } else {
         return "test failed: ojects do not match";
