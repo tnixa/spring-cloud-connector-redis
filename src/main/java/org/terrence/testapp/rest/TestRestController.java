@@ -29,10 +29,10 @@ public class TestRestController {
       try {
         repo.findById(id).ifPresent(p -> repo.deleteById(p.getId())); // if there is an existing Person with the id then
                                                                       // delete it
-        repo.insert(test);
+        repo.save(test);
       } catch (Exception d) {
         System.out.println("exception caught: creating new object");
-        repo.insert(test);
+        repo.save(test);
       }
 
       // get the Person by ID and make sure the name and id matche

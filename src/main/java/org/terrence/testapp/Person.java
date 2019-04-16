@@ -1,5 +1,8 @@
 package org.terrence.testapp;
 
+import org.springframework.data.redis.core.RedisHash;
+
+@RedisHash("Person")
 public class Person {
 
     private String id;

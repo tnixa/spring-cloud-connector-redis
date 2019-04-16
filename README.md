@@ -1,5 +1,5 @@
-## Test project for Spring Cloud Connectors with MongoDB on IBM Cloud
-This project is a quick test to verify the behavior of the Spring Cloud Connector for MongoDB on IBM Cloud, as provided by https://github.com/IBM-Cloud/bluemix-cloud-connectors. This project provides a simple REST endpoint that will verify that a bound MongoDB service is detected appropriately, and be used by the application, by performing a quick read and write to the database.
+## Test project for Spring Cloud Connectors with Redis on IBM Cloud
+This project is a quick test to verify the behavior of the Spring Cloud Connector for Redis on IBM Cloud, as provided by https://github.com/IBM-Cloud/bluemix-cloud-connectors. This project provides a simple REST endpoint that will verify that a bound Redis service is detected appropriately, and be used by the application, by performing a quick read and write to the database.
 
 ## Setup
 You'll need ibm cloud CLI from https://cloud.ibm.com/docs/cli/reference/ibmcloud?topic=cloud-cli-install-ibmcloud-cli#install_use and bx cf installed and configured to talk to the appropriate cf org/spac etc.
