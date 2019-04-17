@@ -1,8 +1,4 @@
-package org.terrence.testapp;
-
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.repository.CrudRepository;
+package org.terrence.testapp.repo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +6,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.repository.CrudRepository;
+import org.terrence.testapp.model.Person;
+
 public class PersonRepository implements CrudRepository<Person, String> {
     public static final String PERSONS_KEY = "persons";
 
-    // private final String idGenerator;
     private final HashOperations<String, String, Person> hashOps;
 
     public PersonRepository(RedisTemplate<String, Person> redisTemplate) {
         this.hashOps = redisTemplate.opsForHash();
-        // this.idGenerator = UUID.randomUUID().toString();
     }
 
     @Override
@@ -46,7 +45,7 @@ public class PersonRepository implements CrudRepository<Person, String> {
 
     @Override
     public Optional<Person> findById(String id) {
-        return Optional.of(hashOps.get(PERSONS_KEY, id));
+        return Optional.ofNullable(hashOps.get(PERSONS_KEY, id));
     }
 
     @Override
