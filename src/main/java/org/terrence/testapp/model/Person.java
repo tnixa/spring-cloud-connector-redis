@@ -1,13 +1,12 @@
-package org.terrence.testapp;
+package org.terrence.testapp.model;
 
-import org.springframework.data.redis.core.RedisHash;
-
-@RedisHash("Person")
 public class Person {
 
     private String id;
     private String name;
     private int age;
+
+    public Person(){}
 
     public Person(String name, int age) {
         this.name = name;
